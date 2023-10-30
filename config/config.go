@@ -20,7 +20,7 @@ var (
 
 func init() {
 // 	ctx := gctx.GetInitCtx()
-	port, _ := strconv.Atoi(os.Getenv("PORT"))
+	port, _ := strconv.Atoi(os.Getenv("ARKOSE_PORT"))
 	if port > 0 {
 		PORT = port
 	}

@@ -1,5 +1,5 @@
 #优化
-支持env配置PORT|PROXY|HAR_FILE_PATH|WAIT
+支持env配置ARKOSE_PORT|PROXY|HAR_FILE_PATH|WAIT
 
 # xyhelper-arkose-v2
 ---
