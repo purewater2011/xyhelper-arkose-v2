@@ -1,3 +1,6 @@
+#优化
+支持env配置PORT|PROXY|HAR_FILE_PATH|WAIT
+
 # xyhelper-arkose-v2
 ---
 ## 提问前请提供star截图，没人需要的话，项目会转为闭源。

@@ -141,7 +141,7 @@ func GetToken(r *ghttp.Request) {
 	// 如果不包含 sup=1|rid= 的字符串,那么就是失败了
 	if !gstr.Contains(token, "sup=1|rid=") {
 		// 在缓存中设置标识 fail 为 true 表示失败,时间为 5分钟,5分钟内不再请求
-		wait := g.Cfg().MustGetWithEnv(ctx, "WAIT", "300").String()
+		wait := config.WAIT
 		waitDuration, err := time.ParseDuration(wait + "s")
 		if err != nil {
 			g.Log().Error(ctx, getRealIP(r), err.Error())

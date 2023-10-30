@@ -1,26 +1,39 @@
 package config
 
 import (
-	"github.com/gogf/gf/v2/frame/g"
+    "os"
+    "strconv"
+// 	"github.com/gogf/gf/v2/frame/g"
 	"github.com/gogf/gf/v2/os/gcache"
-	"github.com/gogf/gf/v2/os/gctx"
+// 	"github.com/gogf/gf/v2/os/gctx"
+	"github.com/gogf/gf/v2/os/gfile"
 )
 
 var (
 	PORT    = 8080
 	PROXY   = ""
 	Cache   = gcache.New()
-	AUTHKEY = g.Cfg().MustGetWithEnv(gctx.GetInitCtx(), "AUTHKEY").String()
+	AUTHKEY = os.Getenv("AUTHKEY")
+	HAR_FILE_PATH = "./temp/request.har"
+	WAIT = "300"
 )
 
 func init() {
-	ctx := gctx.GetInitCtx()
-	port := g.Cfg().MustGetWithEnv(ctx, "PORT").Int()
+// 	ctx := gctx.GetInitCtx()
+	port, _ := strconv.Atoi(os.Getenv("PORT"))
 	if port > 0 {
 		PORT = port
 	}
-	proxy := g.Cfg().MustGetWithEnv(ctx, "PROXY").String()
+	proxy := os.Getenv("PROXY")
 	if proxy != "" {
 		PROXY = proxy
 	}
+	harFilePath := os.Getenv("HAR_FILE_PATH")
+    if gfile.Exists(harFilePath) {
+        HAR_FILE_PATH = harFilePath
+    }
+    wait := os.Getenv("WAIT")
+    if (wait != "") && (wait != "0") {
+        WAIT = wait
+    }
 }

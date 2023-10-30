@@ -26,7 +26,7 @@ func main() {
 
 // loadHarFile 加载har文件
 func loadHarFile(ctx g.Ctx) {
-	harFilePath := "./temp/request.har"
+    harFilePath := config.HAR_FILE_PATH
 	if gfile.Exists(harFilePath) {
 		request, err := har.Parse(ctx, harFilePath)
 		if err != nil {
