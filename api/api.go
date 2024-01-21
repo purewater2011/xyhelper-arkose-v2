@@ -73,6 +73,7 @@ func GetToken(r *ghttp.Request) {
 	harRequest := &har.Request{}
 	config.Cache.MustGet(ctx, "request").Scan(harRequest)
 	requrl := harRequest.URL
+
 	if requrl == "" {
 		g.Log().Error(ctx, getRealIP(r), "Pleade upload har file")
 
@@ -130,6 +131,18 @@ func GetToken(r *ghttp.Request) {
 	defer response.Close()
 	text := response.Text()
 	token := gjson.New(text).Get("token").String()
+
+	if !gstr.Contains(token, "sup=1|rid=") {
+	    response, err = reqCli.Request(ctx, "post", requrl, requests.RequestOption{
+    		Headers: Headers,
+    		Data:    payload,
+    		Cookies: harRequest.Cookies,
+    	})
+    	defer response.Close()
+        text = response.Text()
+        token = gjson.New(text).Get("token").String()
+	}
+
 	if token == "" {
 		g.Log().Error(ctx, getRealIP(r), text)
 		r.Response.WriteJsonExit(g.Map{
