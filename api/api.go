@@ -106,7 +106,7 @@ func GetToken(r *ghttp.Request) {
 	// 替换 bda= 的值
 	payloadArray[0] = "bda=" + url.QueryEscape(bda)
 	// 移除最后一个元素
-	payloadArray = payloadArray[:len(payloadArray)-1]
+	payloadArray = payloadArray[:len(payloadArray)-2]
 	// 将 rnd=0.3046791926621015 添加到数组最后
 	payloadArray = append(payloadArray, "rnd="+strconv.FormatFloat(rand.Float64(), 'f', -1, 64))
 	// 以&连接数组
@@ -115,6 +115,7 @@ func GetToken(r *ghttp.Request) {
 	defer func() {
 		reqCli.CloseIdleConnections()
 	}()
+	g.Log().Error(ctx, payload, requrl)
 	response, err := reqCli.Request(ctx, "post", requrl, requests.RequestOption{
 		Headers: Headers,
 		Data:    payload,
@@ -131,17 +132,6 @@ func GetToken(r *ghttp.Request) {
 	defer response.Close()
 	text := response.Text()
 	token := gjson.New(text).Get("token").String()
-
-	if !gstr.Contains(token, "sup=1|rid=") {
-	    response, err = reqCli.Request(ctx, "post", requrl, requests.RequestOption{
-    		Headers: Headers,
-    		Data:    payload,
-    		Cookies: harRequest.Cookies,
-    	})
-    	defer response.Close()
-        text = response.Text()
-        token = gjson.New(text).Get("token").String()
-	}
 
 	if token == "" {
 		g.Log().Error(ctx, getRealIP(r), text)
