@@ -62,16 +62,16 @@ func GetToken(r *ghttp.Request) {
 	}
 
 	// 如果缓存中存在 fail 标识,那么就不再请求
-	if ok, err := config.Cache.Contains(ctx, "fail"); err == nil && ok {
-		expire := config.Cache.MustGetExpire(ctx, "fail")
-		// g.Log().Error(ctx, getRealIP(r), "cooldown time", expire.Seconds())
-		r.Response.WriteJsonExit(g.Map{
-			"code": 0,
-			"msg":  "Fail: cooldown time!",
-			"wait": expire.Seconds(),
-		})
-		return
-	}
+// 	if ok, err := config.Cache.Contains(ctx, "fail"); err == nil && ok {
+// 		expire := config.Cache.MustGetExpire(ctx, "fail")
+// 		// g.Log().Error(ctx, getRealIP(r), "cooldown time", expire.Seconds())
+// 		r.Response.WriteJsonExit(g.Map{
+// 			"code": 0,
+// 			"msg":  "Fail: cooldown time!",
+// 			"wait": expire.Seconds(),
+// 		})
+// 		return
+// 	}
 	harRequest := &har.Request{}
 	config.Cache.MustGet(ctx, "request").Scan(harRequest)
 	requrl := harRequest.URL
@@ -121,7 +121,6 @@ func GetToken(r *ghttp.Request) {
 		Data:    payload,
 		Cookies: harRequest.Cookies,
 	})
-
 	if err != nil {
 		g.Log().Error(ctx, getRealIP(r), err.Error())
 		r.Response.WriteJsonExit(g.Map{
