@@ -14,6 +14,9 @@ require (
 	github.com/PuerkitoBio/goquery v1.8.1 // indirect
 	github.com/andybalholm/brotli v1.0.5 // indirect
 	github.com/andybalholm/cascadia v1.3.2 // indirect
+	github.com/bogdanfinn/fhttp v0.5.24 // indirect
+	github.com/bogdanfinn/tls-client v1.6.1 // indirect
+	github.com/bogdanfinn/utls v1.5.16 // indirect
 	github.com/clbanning/mxj/v2 v2.7.0 // indirect
 	github.com/cloudflare/circl v1.3.3 // indirect
 	github.com/fatih/color v1.15.0 // indirect
@@ -37,9 +40,11 @@ require (
 	github.com/quic-go/quic-go v0.38.1 // indirect
 	github.com/refraction-networking/utls v1.5.3 // indirect
 	github.com/rivo/uniseg v0.4.4 // indirect
+	github.com/tam7t/hpkp v0.0.0-20160821193359-2b70b4024ed5 // indirect
 	github.com/tidwall/gjson v1.17.0 // indirect
 	github.com/tidwall/match v1.1.1 // indirect
 	github.com/tidwall/pretty v1.2.1 // indirect
+	github.com/xqdoo00o/funcaptcha v0.0.0-20240119125440-13927300884f // indirect
 	go.opentelemetry.io/otel v1.18.0 // indirect
 	go.opentelemetry.io/otel/metric v1.18.0 // indirect
 	go.opentelemetry.io/otel/sdk v1.18.0 // indirect
