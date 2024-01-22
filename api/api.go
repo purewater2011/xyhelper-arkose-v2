@@ -20,6 +20,8 @@ import (
 	"github.com/gogf/gf/v2/os/gfile"
 	"github.com/gogf/gf/v2/os/gtime"
 	"github.com/gogf/gf/v2/text/gstr"
+
+	"github.com/xqdoo00o/funcaptcha"
 )
 
 var (
@@ -105,7 +107,7 @@ func GetToken(r *ghttp.Request) {
 	// 替换 bda= 的值
 	payloadArray[0] = "bda=" + url.QueryEscape(bda)
 	// 移除最后一个元素
-	payloadArray = payloadArray[:len(payloadArray)-1]
+	payloadArray = payloadArray[:len(payloadArray)-2]
 	// 将 rnd=0.3046791926621015 添加到数组最后
 	payloadArray = append(payloadArray, "rnd="+strconv.FormatFloat(rand.Float64(), 'f', -1, 64))
 	// 以&连接数组
@@ -119,6 +121,7 @@ func GetToken(r *ghttp.Request) {
 		Data:    payload,
 		Cookies: harRequest.Cookies,
 	})
+
 	if err != nil {
 		g.Log().Error(ctx, getRealIP(r), err.Error())
 		r.Response.WriteJsonExit(g.Map{
@@ -130,6 +133,12 @@ func GetToken(r *ghttp.Request) {
 	defer response.Close()
 	text := response.Text()
 	token := gjson.New(text).Get("token").String()
+
+	version := 4 // 0 - Auth, 3 - 3.5, 4 - 4
+	token2, _ := funcaptcha.GetOpenAIToken(version, "", "")
+
+	token = token2
+
 	if token == "" {
 		g.Log().Error(ctx, getRealIP(r), text)
 		r.Response.WriteJsonExit(g.Map{
@@ -171,7 +180,6 @@ func GetToken(r *ghttp.Request) {
 		})
 		return
 	}
-	g.Log().Info(ctx, getRealIP(r), token)
 
 	r.Response.Status = response.StatusCode()
 	r.Response.WriteJsonExit(g.Map{
