@@ -39,7 +39,7 @@ func tokenHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
-	port := os.Getenv("PORT") // 从环境变量中获取端口
+	port := os.Getenv("ARKOSE_PORT") // 从环境变量中获取端口
 	if port == "" {
 		port = "8080" // 默认端口为8080
 	}
