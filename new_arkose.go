@@ -18,6 +18,11 @@ type TokenResponse struct {
 	Token   string `json:"token"`
 }
 
+func timestampToDatetime(timestamp int64) string {
+	t := time.Unix(timestamp, 0)
+	return t.Format("2006-01-02 15:04:05")
+}
+
 func tokenHandler(w http.ResponseWriter, r *http.Request) {
 	if r.Method != http.MethodGet {
 		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
@@ -26,6 +31,9 @@ func tokenHandler(w http.ResponseWriter, r *http.Request) {
 
 	version := 4 // 0 - Auth, 3 - 3.5, 4 - 4
 	token, _ := funcaptcha.GetOpenAIToken(version, "", "")
+
+	datetime := timestampToDatetime(time.Now().Unix())
+	fmt.Printf("Time: %s \nGenerated Token: %s\n", datetime, token)
 
 	response := TokenResponse{
 		Code:    1,
